@@ -1,7 +1,7 @@
 const fs = require('fs')
 
 const boxIds = fs
-  .readFileSync('./testinput.txt')  //test input for now
+  .readFileSync('./input.txt')  //test input for now
   .toString()
   .split('\n')
 
@@ -41,9 +41,32 @@ function part1() {
 }
 
 function part2() {
-  👏🏻👏🏻👏🏻👏🏻👏🏻👏🏻👏🏻👏🏻👏🏻
-}
 
+
+  for (let i = 0; i < boxIds[0].length; i++) {
+    //Step 1: slice out a character from each ID
+    let sliceIds = boxIds.map(id => {
+      return id.slice(0, i) + id.slice(i + 1, boxIds[0].length)
+    })
+
+    //Step 2: determine if there is a duplicate element in the resulting array of IDs
+
+    //If the lengths of these are not the same, then there is a duplicate after we've sliced out the i'th character
+    if ((new Set(sliceIds)).size != boxIds.length) {
+      sliceIds.sort()
+      for (let i = 0; i < sliceIds.length; i++) {
+        if (sliceIds[i] == sliceIds[i + 1]) {
+          return sliceIds[i]
+        }
+      }
+    }
+  }
+
+
+  //Step 3: If yes, find the matching IDs and return the value
+
+
+}
 
 
 console.log(part2())
