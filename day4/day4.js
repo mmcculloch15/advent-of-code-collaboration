@@ -71,8 +71,6 @@ function part1(records) {
       value: 0
     })
 
-
-  //console.log(`best minute: ${bestMinute.minute}, target guard: ${sortedGuards[0].id}`)
   console.log(`answer: ${(bestMinute.minute) * sortedGuards[0].id}`)
 }
 
