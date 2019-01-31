@@ -15,7 +15,7 @@ function getMinuteFromRecord(record) {
   return parseInt(timestamp)
 }
 
-function part1(records) {
+function profileGuardsActivity(records) {
   let currentGuard, currentGuardIndex, theMinuteTheyFellAsleep, theMinuteTheyWokeUp
   for (record of records) {
     if (record.includes('Guard')) {
@@ -52,7 +52,12 @@ function part1(records) {
       guards[currentGuardIndex].totalMinutesAsleep += minutesAsleep
     }
   }
+  return guards
+}
 
+function part1(records) {
+
+  const guards = profileGuardsActivity(records)
   //At this point, the guard Object will contain each guard, their individual minutes asleep, and their totalTimeAsleep
   //Sort the guards array by the totalMinutesAsleep variable to find the guard that slept the most
   const sortedGuards = guards.sort((guard1, guard2) => {
@@ -71,8 +76,35 @@ function part1(records) {
       value: 0
     })
 
-  console.log(`answer: ${(bestMinute.minute) * sortedGuards[0].id}`)
+  console.log(`Answer: ${(bestMinute.minute) * sortedGuards[0].id}`)
 }
 
-part1(records)
+function part2(records) {
+  const guards = profileGuardsActivity(records)
+
+  //Reduce the whole guards array to find the exact minute with the highest frequency and its associated guard
+  const guardWithMostAsleepMinute = guards.reduce((minuteMostAsleep, currentGuard) => {
+    const currentGuardMinutesAsleep = Object.entries(currentGuard.minutesAsleep)
+
+    //For each guard, loop through its minutesAsleep array to compare with the reducer accumulator
+    for (minute of currentGuardMinutesAsleep) {
+      let currentMinute = minute[0]
+      let currentMinuteTimesAsleep = minute[1]
+      //If the current minute we are reviewing has a higher frequency than the accumulator, update it
+      if (currentMinuteTimesAsleep > minuteMostAsleep.timesAsleep) {
+        minuteMostAsleep = {
+          guard: currentGuard.id,
+          minute: currentMinute,
+          timesAsleep: currentMinuteTimesAsleep
+        }
+      }
+    }
+    return minuteMostAsleep  //we will always return this at the end of the loop to keep the reduce function going
+  }, { guard: 0, minute: 0, timesAsleep: 0 })
+
+  console.log(`Answer: ${(guardWithMostAsleepMinute.guard * guardWithMostAsleepMinute.minute)}`)
+
+}
+
+part2(records)
 
