@@ -1,4 +1,3 @@
-
 const fs = require('fs')
 
 const input = fs
@@ -24,7 +23,7 @@ function getGuardInfo(records) {
       //Using a regex, match any number of digits after a # character and assign it as the currentGuard
       const currentGuard = record.match(/#(\d+)/)[1]
 
-      if (!guards.find(guard => guard.id === currentGuard)) 
+      if (!guards.find(guard => guard.id === currentGuard)) {
         guards.push({
           id: currentGuard,
           minutesAsleep: {},
@@ -109,5 +108,3 @@ function part2(records) {
 }
 
 part2(input)
-
-
