@@ -103,7 +103,6 @@ function part2(records) {
   }, { guard: 0, minute: 0, timesAsleep: 0 })
 
   console.log(`Answer: ${(guardWithMostAsleepMinute.guard * guardWithMostAsleepMinute.minute)}`)
-
 }
 
 part2(records)
