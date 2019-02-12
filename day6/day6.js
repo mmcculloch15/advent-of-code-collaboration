@@ -74,20 +74,23 @@ const findClosestPointOfInterest = (x, y) => {
   else return result.name
 }
 
+//For each element in our grid, calculate its closest POI and set the name as its value
 for (let i = 0; i < largestY; i++) {
   for (let j = 0; j < largestX; j++) {
-    //console.log(`I: ${i}  J: ${j}`)
     grid[i][j] = findClosestPointOfInterest(i, j) //assign [0, 0] the value of 'point1'
     const res = points.find(point => {
+      //we could put this in findClosestPointOfInterest() maybe? Find the appropriate POI so we can update its counter
       return point.name === grid[i][j]
     })
     if (res) {
-      res.counter++
+      res.counter++ //If a match is found, increment its counter by 1
     }
   }
 }
 
 //These functions will grab the outer edges of the grid and set their closest POIs to 0, as they are infinite
+
+//Use a set because it will handle duplicates for us automatically
 let infinitePointName = new Set()
 grid.map(column => {
   infinitePointName.add(column[0])
@@ -101,6 +104,7 @@ grid[grid.length - 1].map(point => {
   infinitePointName.add(point)
 })
 
+//For each point identified as being infinite, set their counters to 0
 for (item of infinitePointName) {
   const res = points.find(point => {
     return point.name === item
@@ -108,6 +112,7 @@ for (item of infinitePointName) {
   if (res) res.counter = 0
 }
 
+//sort from lowest to highest and pop the highest value from the array, done!
 const answer = points
   .map(point => point.counter)
   .sort(sortNumbers)
