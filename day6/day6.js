@@ -96,6 +96,8 @@ const part1 = () => {
     }
   }
 
+  console.log(grid[0])
+
   //These functions will grab the outer edges of the grid and set their closest POIs to 0, as they are infinite
 
   //Use a set because it will handle duplicates for us automatically
@@ -145,4 +147,4 @@ const part2 = () => {
   console.log(`Answer! ${result}`)
 }
 
-part1()
+part2()
