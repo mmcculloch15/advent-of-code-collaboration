@@ -10,9 +10,10 @@ const grid = Array.from({ length: 5000 }, () => Array.from({ length: 5000 }).fil
 
 //start Santa in the middle of the 5000x5000 array
 let santa = [2500, 2500]
+let roboSanta = [2500, 2500]
 let deliveries = 0
 
-const moveSanta = instruction => {
+const moveSanta = (instruction, santa) => {
 	if (instruction === '^') santa[0]--
 	else if (instruction === 'v') santa[0]++
 	else if (instruction === '<') santa[1]--
@@ -25,6 +26,7 @@ const deliverGift = () => {
 }
 
 function part1() {
+	deliverGift()
 	deliverGift()
 	instructions.map((instruction, i) => {
 		moveSanta(instruction)
