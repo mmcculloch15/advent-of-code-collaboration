@@ -34,7 +34,7 @@ const createGridNode = (x, y, wireNum) => {
 		if (grid[x][y]) {
 			//If the first wire has already touched this spot, this will be an object with the wire number and the length of wire necessary to get there
 			if (typeof grid[x][y] === 'object' && grid[x][y].wire != wireNum) {
-				if (grid[x][y].value + wireLength[wireNum] < answer) {
+				if ((grid[x][y].value + wireLength[wireNum]) < answer) {
 					answer = grid[x][y].value + wireLength[wireNum]
 				}
 				grid[x][y] = 'INTERSECTION' //change it to a different value so we don't match it again
