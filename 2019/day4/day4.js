@@ -25,7 +25,6 @@ const hasExactlyTwoAdjacent = (passwordString, i) => {
 
 const hasMatchingAdjacentDigits = password => {
 	const passwordString = String(password)
-
 	for (let i = 0; i < passwordString.length - 1; i++) {
 		if (passwordString[i] === passwordString[i + 1]) {
 			if (hasExactlyTwoAdjacent(passwordString, i)) return true
