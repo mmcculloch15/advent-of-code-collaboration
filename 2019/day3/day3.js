@@ -17,7 +17,7 @@ const currentPosition = {
 
 const layWire = (direction, distance, wireNum) => {
 	for (i = 0; i < distance; i++) {
-		wireLength[wireNum]++ //increase the length of the wire
+		wireLength[wireNum]++ // increase the length of the wire
 		if (direction === 'D') createGridNode(currentPosition.x + 1, currentPosition.y, wireNum)
 		else if (direction === 'U') createGridNode(currentPosition.x - 1, currentPosition.y, wireNum)
 		else if (direction === 'L') createGridNode(currentPosition.x, currentPosition.y - 1, wireNum)
@@ -47,18 +47,18 @@ const createGridNode = (x, y, wireNum) => {
 	}
 }
 
-//place the first wire on the grid
+// place the first wire on the grid
 firstWire.map(instruction => {
 	const direction = instruction[0]
 	const distance = Number(instruction.substring(1))
 	layWire(direction, distance, 1)
 })
 
-//reset back to the origin for the 2nd wire
+// reset back to the origin for the 2nd wire
 currentPosition.x = 0
 currentPosition.y = 0
 
-//place the second wire on the grid
+// place the second wire on the grid
 secondWire.map(instruction => {
 	const direction = instruction[0]
 	const distance = Number(instruction.substring(1))
