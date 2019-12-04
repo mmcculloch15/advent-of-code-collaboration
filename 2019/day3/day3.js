@@ -29,8 +29,8 @@ const createGridNode = (x, y, wireNum) => {
 	currentPosition.x = x
 	currentPosition.y = y
 
+	//Need to do this first.  If we try to check grid[x][y] and it doesn't exist, it blows up
 	if (grid[x]) {
-		//Need to do this first.  If we try to check grid[x][y] and it doesn't exist, it blows up
 		if (grid[x][y]) {
 			//If the first wire has already touched this spot, this will be an object with the wire number and the length of wire necessary to get there
 			if (typeof grid[x][y] === 'object' && grid[x][y].wire != wireNum) {
