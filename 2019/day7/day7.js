@@ -142,11 +142,12 @@ function part2() {
 	let bestResult = 0
 
 	while ((permutation = permutations.next())) {
+		//reset the amplifiers for every permutation
 		amplifiers = []
 		for (let idx = 0; idx < NUM_AMPLIFIERS; idx++) {
 			amplifiers.push([...intcodes])
 		}
-		console.log(`===============================NEW PERMUTATION!====================`)
+
 		let currentAmp = 0
 		let output, i
 		let ampIndices = [0, 0, 0, 0, 0]
@@ -162,24 +163,18 @@ function part2() {
 			return output
 		})
 
-		//console.log(`AMP INDICES ${ampIndices}`)
-
 		//keep looping with phase = null until 99 is hit
 		while (output != 'halt') {
-			//console.log(`========================================AMP INDICIES ${ampIndices} `)
 			;({ output, i } = runProgram(null, input, currentAmp, ampIndices[currentAmp]))
 			if (output != 'halt') input = output
 			ampIndices[currentAmp] = i
-			//console.log(`AMP! ${amplifiers[currentAmp]}`)
 			if (currentAmp === NUM_AMPLIFIERS - 1) currentAmp = 0
 			else currentAmp++
-			//console.log(`finished a loop, output ${output}`)
 		}
 
 		if (Number(input) > bestResult) bestResult = Number(input) //need the last input
-		console.log(`Best Result? ${bestResult}`)
 	}
-	//console.log(`FINAL BEST RESULT ${bestResult}`)
+	console.log(`Best Result? ${bestResult}`)
 }
 
 part2()
