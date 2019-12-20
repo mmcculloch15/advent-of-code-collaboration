@@ -1,57 +1,31 @@
 const fs = require('fs')
 
 const intcodes = fs
-	.readFileSync('input.txt')
+	.readFileSync('test.txt')
 	.toString()
 	.split(',')
 	.map(value => Number(value))
 
+let relativeBase = 0
+
+const getValue = (mode, parameter, relativeBase) => {
+	if (mode === 0) return intcodes[parameter]
+	else if (mode === 1) return parameter
+	else if (mode === 2) return intcodes[relativeBase + parameter]
+}
+
 // must return back a result, that the while loop will set at the end if necessary
 const determineOperationResult = (opCode, modes, parameters) => {
+	let number1, number2
+	number1 = getValue(modes[0], parameters[0])
+	number2 = getValue(modes[1], parameters[1])
 	let result = 0
-	if (opCode === '01') {
-		if (modes[0] === 0) result += intcodes[parameters[0]]
-		else if (modes[0] === 1) result += parameters[0]
-		if (modes[1] === 0) result += intcodes[parameters[1]]
-		else if (modes[1] === 1) result += parameters[1]
-	} else if (opCode === '02') {
-		result = 1
-		if (modes[0] === 0) result *= intcodes[parameters[0]]
-		else if (modes[0] === 1) result *= parameters[0]
-		if (modes[1] === 0) result *= intcodes[parameters[1]]
-		else if (modes[1] === 1) result *= parameters[1]
-	} else if (opCode === '05' || opCode === '06') {
-		let num1, num2
-
-		if (modes[0] === 0) num1 = intcodes[parameters[0]]
-		else if (modes[0] === 1) num1 = parameters[0]
-		if (modes[1] === 0) num2 = intcodes[parameters[1]]
-		else if (modes[1] === 1) num2 = parameters[1]
-
-		if (opCode === '05') {
-			if (num1 !== 0) result = num2
-			else result = null
-		} else if (opCode === '06') {
-			if (num1 === 0) result = num2
-			else result = null
-		}
-		console.log(`num1! ${num1} num2! ${num2}`)
-	} else if (opCode === '07' || opCode === '08') {
-		let num1, num2
-		if (modes[0] === 0) num1 = intcodes[parameters[0]]
-		else if (modes[0] === 1) num1 = parameters[0]
-		if (modes[1] === 0) num2 = intcodes[parameters[1]]
-		else if (modes[1] === 1) num2 = parameters[1]
-
-		if (opCode === '07') {
-			if (num1 < num2) result = 1
-			else result = 0
-		} else if (opCode === '08') {
-			if (num1 === num2) result = 1
-			else result = 0
-		}
-		console.log(`num1! ${num1} num2! ${num2}`)
-	}
+	if (opCode === '01') result = number1 + number2
+	else if (opCode === '02') result = number1 * number2
+	else if (opCode === '05') result = number1 !== 0 ? number2 : null
+	else if (opCode === '06') result = number1 === 0 ? number2 : null
+	else if (opCode === '07') result = number1 < number2 ? 1 : 0
+	else if (opCode === '08') result = number1 === number2 ? 1 : 0
 	console.log(`result ${result}`)
 	return result
 }
@@ -59,14 +33,13 @@ const determineOperationResult = (opCode, modes, parameters) => {
 let i = 0
 while (i < intcodes.length) {
 	let opCodeString = String(intcodes[i])
-	console.log(`OPCODE STRING ${opCodeString}`)
 	let indexIncrement
+	let modes = []
+	let parameters = []
 	let opCode = String(opCodeString)
 		.slice(opCodeString.length - 2)
 		.padStart(2, '0')
-	console.log(`OPCODE STRING ${opCodeString}`)
-	let modes = []
-	let parameters = []
+
 	if (opCode === '01' || opCode === '02' || opCode === '07' || opCode === '08') {
 		// 4 index instructions
 		parameters[0] = intcodes[i + 1]
@@ -103,6 +76,9 @@ while (i < intcodes.length) {
 		const res = determineOperationResult(opCode, modes, parameters)
 		if (res) i = res
 		else i += 3
+	} else if (opCode === '09') {
+		if (modes[0] === 0) relativeBase += intcodes[parameters[0]]
+		else if (modes[0] === 1) relativeBase += parameters[0]
 	} else if (opCode === '99') {
 		break
 	}
